@@ -1,4 +1,4 @@
 NoSuchWiki
 ==========
 
-Special:NoSuckWiki for @ShoutWiki.
+Special:NoSuchWiki for @ShoutWiki.
