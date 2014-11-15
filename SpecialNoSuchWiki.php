@@ -19,11 +19,6 @@ class SpecialNoSuchWiki extends SpecialPage {
 		parent::__construct( 'NoSuchWiki' );
 	}
 
-	/**
-	 * Show the special page
-	 *
-	 * @param $section Mixed: parameter passed to the page or null
-	 */
 	public function execute( $par ) {
 		$out = $this->getOutput();
 		$out->addModuleStyles( 'ext.nosuchwiki' );
@@ -37,7 +32,7 @@ class SpecialNoSuchWiki extends SpecialPage {
 	/**
 	 * Get and parse the requested site.
 	 *
-	 * @return $reqWiki String: foo
+	 * @return string
 	 */
 	private function getSite() {
 		var_dump( $_SERVER['HTTP_REFERER'] );
@@ -78,7 +73,7 @@ class SpecialNoSuchWiki extends SpecialPage {
 	}
 	private function getLogs( $deletedWiki ) {
 		$dbr = wfGetDB( DB_SLAVE );
-		// @TODO Fix join
+
 		$res = $dbr->select(
 			array( 'logging', 'log_search' ),
 			'*',
@@ -86,7 +81,7 @@ class SpecialNoSuchWiki extends SpecialPage {
 				'log_type' => 'createwiki',
 				'log_action' => 'delete',
 				'ls_field' => 'deletedwiki',
-				'ls_value' => '$deletedWiki'
+				'ls_value' => $deletedWiki
 			),
 			__METHOD__,
 			array(
