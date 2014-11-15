@@ -11,14 +11,22 @@
  */
 
 class SpecialNoSuchWiki extends SpecialPage {
-	
+
+	/**
+	 * Constructor
+	 */
 	public function __construct() {
 		parent::__construct( 'NoSuchWiki' );
 	}
 
+	/**
+	 * Show the special page
+	 *
+	 * @param $section Mixed: parameter passed to the page or null
+	 */
 	public function execute( $par ) {
 		$out = $this->getOutput();
-		$out->addModules( 'ext.nosuchwiki' );
+		$out->addModuleStyles( 'ext.nosuchwiki' );
 
 		$reqSite = $this->getSite();
 		$logContents = $this->getLogs( $reqSite );
@@ -26,7 +34,13 @@ class SpecialNoSuchWiki extends SpecialPage {
 		//$this->addOtherWikis();
 	}
 
+	/**
+	 * Get and parse the requested site.
+	 *
+	 * @return $reqWiki String: foo
+	 */
 	private function getSite() {
+		var_dump( $_SERVER['HTTP_REFERER'] );
 		if( isset( $_SERVER['HTTP_REFERER'] ) ) {
 			$in = $_SERVER['HTTP_REFERER'];
 			$escaped = htmlspecialchars( $in );
@@ -34,16 +48,20 @@ class SpecialNoSuchWiki extends SpecialPage {
 			$wiki = explode( '.', $domain[2] );
 			$reqWiki = $this->determineWiki( $wiki );
 		} else {
-			$reqWiki = NULL;
+			$reqWiki = null;
 		}
 		unset( $in, $escaped, $domain, $wiki );
 		return $reqWiki;
 	}
 
+	/**
+	 * @param $wiki
+	 * @return string
+	 */
 	private function determineWiki( $wiki ) {
 		global $wgLangToCentralMap;
 
-		$x = count($wiki);
+		$x = count( $wiki );
 
 		if( $wiki[0] == "www" && $wiki[1] == "shoutwiki" && $wiki[3] == "com" ) {
 			// English language hub.
@@ -58,30 +76,29 @@ class SpecialNoSuchWiki extends SpecialPage {
 		}
 		return $requestedWiki;
 	}
-	private function getLogs( $deletedWiki) {
-		//SELECT *  FROM `logging` inner join log_search on ls_log_id = log_id WHERE `log_type` = 'createwiki' AND `log_action` = 'delete' AND ls_field = 'deletedwiki' and ls_value = 'foo' ORDER BY `ls_log_id` DESC
-
+	private function getLogs( $deletedWiki ) {
 		$dbr = wfGetDB( DB_SLAVE );
+		// @TODO Fix join
 		$res = $dbr->select(
-			'logging',
+			array( 'logging', 'log_search' ),
 			'*',
 			array(
 				'log_type' => 'createwiki',
 				'log_action' => 'delete',
 				'ls_field' => 'deletedwiki',
-				'ls_value' => $deletedWiki,
+				'ls_value' => '$deletedWiki'
 			),
 			__METHOD__,
 			array(
-				'LIMIT' => '2',
+				'LIMIT' => 2,
 				'ORDER BY' => 'ls_log_id DESC',
 			),
 			array(
-				'log_search' => array( 'INNER JOIN' => 'ls_log_id = log_id' )
+				'log_search' => array( 'INNER JOIN', 'ls_log_id = log_id' )
 			)
 		);
 		if ( $dbr->numRows( $res ) === 0 ) {
-			return NULL;
+			return null;
 		} else {
 			return $res;
 		}
@@ -91,7 +108,7 @@ class SpecialNoSuchWiki extends SpecialPage {
 		$out = $this->getOutput();
 
 		$out->addHTML( '<div id="nosuchwiki-logwrapper">');
-		if( $logs === 0 ) {
+		if( $logs === null ) {
 			$this->msg( 'nosuchwiki-nevercreated')->parse();
 		} else {
 			$this->msg( 'nosuchwiki-requestedsite' )->params( $requestedSite )->parse();

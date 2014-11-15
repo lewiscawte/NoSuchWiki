@@ -28,3 +28,4 @@ $dir = __DIR__ . '/';
 $wgExtensionMessageFiles['NoSuchWiki'] = $dir . 'NoSuchWiki.i18n.php';
 
 $wgAutoloadClasses['SpecialNoSuchWiki'] = $dir . 'SpecialNoSuchWiki.php';
+$wgSpecialPages['NoSuchWiki'] = 'SpecialNoSuchWiki';
