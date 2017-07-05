@@ -1,0 +1,8 @@
+{
+  "@metadata": {
+    "authors": [
+      "Lewis Cawte"
+    ]
+  },
+  "nosuchwiki-desc": "The NoSuchWiki extension provides a custom page for users trying to access non-existant sites at ShoutWiki."
+}

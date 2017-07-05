@@ -25,7 +25,7 @@ $wgExtensionCredits['specialpage'][] = array(
 );
 
 $dir = __DIR__ . '/';
-$wgExtensionMessageFiles['NoSuchWiki'] = $dir . 'NoSuchWiki.i18n.php';
+$wgMessagesDirs['NoSuchWiki'] = __DIR__ . '/i18n';
 
 $wgAutoloadClasses['SpecialNoSuchWiki'] = $dir . 'SpecialNoSuchWiki.php';
 $wgSpecialPages['NoSuchWiki'] = 'SpecialNoSuchWiki';

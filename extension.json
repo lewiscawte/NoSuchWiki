@@ -1,0 +1,20 @@
+{
+	"name": "NoSuchWiki",
+	"version": "0.1",
+	"author": "Lewis Cawte",
+	"url": "https://www.mediawiki.org/wiki/Extension:NoSuchWiki",
+	"descriptionmsg": "nosuchwiki-desc",
+	"type": "specialpage",
+	"SpecialPages": {
+		"NoSuchWiki": "SpecialNoSuchWiki"
+	},
+	"MessagesDirs": {
+		"NoSuchWiki": [
+			"i18n"
+		]
+	},
+	"AutoloadClasses": {
+		"SpecialNoSuchWiki": "SpecialNoSuchWiki.php"
+	},
+	"manifest_version": 2
+}
