@@ -35,38 +35,33 @@ class SpecialNoSuchWiki extends SpecialPage {
 	 * @return string
 	 */
 	private function getSite( $par ) {
+		$par = htmlspecialchars( $par );
 		var_dump( $par );
 		if( isset( $par ) ) {
-			$in = $par;
-			$escaped = htmlspecialchars( $in );
-			$reqWiki = $this->determineWiki( $escaped );
+			if( $this->requestedWikiCheck( $par ) ) {
+				$reqWiki = $par;
+			} else { $reqWiki = null; }
 		} else {
 			$reqWiki = null;
 		}
-		unset( $in, $escaped, $domain, $wiki );
+		unset( $par );
 		return $reqWiki;
 	}
 
-	/**
-	 * @param $wiki
-	 * @return string
-	 */
-	private function determineWiki( $wiki ) {
-		global $wgLangToCentralMap;
-
-		if( $wiki[0] == "www" && $wiki[1] == "shoutwiki" && $wiki[3] == "com" ) {
-			// English language hub.
-			$requestedWiki = "hub";
-		} elseif ( array_key_exists( $wiki[$x-3], $wgLangToCentralMap ) && $wiki[$x-2] == "shoutwiki" ) {
-			// Other language hubs.
-			$requestedWiki = $wiki[$x-3];
-		} elseif( isset( $wiki[$x-3] ) && isset( $wiki[$x-4] ) ) {
-			$requestedWiki = $wiki[$x-4] . "." . $wiki[$x-3];
+	private function requestedWikiCheck( $wiki ) {
+		if( isset( $wiki ) ) {
+			$wikiArray = explode( '.', $wiki );
+			$count = count( $wikiArray );
+			if ( 0 < $count && $count < 3 ) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
-			$requestedWiki = $wiki[$x-3];
+			return false;
 		}
-		return $requestedWiki;
 	}
+
 	private function getLogs( $deletedWiki ) {
 		$dbr = wfGetDB( DB_SLAVE );
 
