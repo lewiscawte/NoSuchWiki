@@ -4,6 +4,7 @@
 	"author": "Lewis Cawte",
 	"url": "https://www.mediawiki.org/wiki/Extension:NoSuchWiki",
 	"descriptionmsg": "nosuchwiki-desc",
+	"license-name": "GPL-2.0+",
 	"type": "specialpage",
 	"SpecialPages": {
 		"NoSuchWiki": "SpecialNoSuchWiki"
