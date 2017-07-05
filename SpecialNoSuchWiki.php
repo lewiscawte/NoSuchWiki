@@ -24,8 +24,7 @@ class SpecialNoSuchWiki extends SpecialPage {
 		$out->addModuleStyles( 'ext.nosuchwiki' );
 
 		$reqSite = $this->getSite( $par );
-		$logContents = $this->getLogs( $reqSite );
-		$this->formatAndOutputLogs( $reqSite, $logContents );
+		$this->formatAndOutputLogs( $reqSite );
 		//$this->addOtherWikis();
 	}
 
@@ -36,7 +35,7 @@ class SpecialNoSuchWiki extends SpecialPage {
 	 */
 	private function getSite( $par ) {
 		$par = htmlspecialchars( $par );
-		var_dump( $par );
+
 		if( isset( $par ) ) {
 			if( $this->requestedWikiCheck( $par ) ) {
 				$reqWiki = $par;
@@ -90,8 +89,9 @@ class SpecialNoSuchWiki extends SpecialPage {
 		}
 	}
 
-	private function formatAndOutputLogs( $requestedSite, $logs ) {
+	private function formatAndOutputLogs( $requestedSite ) {
 		$out = $this->getOutput();
+		$logs = $this->getLogs( $requestedSite );
 
 		$out->addHTML( '<div id="nosuchwiki-logwrapper">');
 		if( $logs === null ) {
@@ -109,5 +109,7 @@ class SpecialNoSuchWiki extends SpecialPage {
 			};
 		};
 		$out->addHTML( '</div>' );
+
+		unset( $logs );
 	}
 }
