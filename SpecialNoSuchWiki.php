@@ -79,7 +79,7 @@ class SpecialNoSuchWiki extends SpecialPage {
 				'ORDER BY' => 'ls_log_id DESC',
 			),
 			array(
-				'log_search' => array( 'INNER JOIN', 'ls_log_id = log_id' )
+				'log_search' => array( 'INNER JOIN', 'log_id = ls_log_id' )
 			)
 		);
 		if ( $dbr->numRows( $res ) === 0 ) {
@@ -95,16 +95,16 @@ class SpecialNoSuchWiki extends SpecialPage {
 
 		$out->addHTML( '<div id="nosuchwiki-logwrapper">');
 		if( $logs === null ) {
-			$this->msg( 'nosuchwiki-nevercreated')->parse();
+			$out->addHTML( $this->msg( 'nosuchwiki-nevercreated')->parse() );
 		} else {
-			$this->msg( 'nosuchwiki-requestedsite' )->params( $requestedSite )->parse();
+			$out->addHTML( $out->msg( 'nosuchwiki-requestedsite' )->params( $requestedSite )->parse() );
 			foreach( $logs as $log ) {
 				$timestamp = $this->getLanguage()->userTimeAndDate( $log->log_timestamp, $this->getUser() );
 
 				$out->addHTML( '<div class="nosuchwiki-logitem">' );
-				$this->msg( 'nosuchwiki-logentry')
+				$out->addHTML( $out->msg( 'nosuchwiki-logentry')
 					->params( $requestedSite, $log->log_user_text, $timestamp, $log->log_comment )
-					->parse();
+					->parse() );
 				$out->addHTML( '</div>' );
 			};
 		};
