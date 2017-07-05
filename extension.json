@@ -17,5 +17,5 @@
 	"AutoloadClasses": {
 		"SpecialNoSuchWiki": "SpecialNoSuchWiki.php"
 	},
-	"manifest_version": 2
+	"manifest_version": 1
 }
