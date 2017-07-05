@@ -4,5 +4,8 @@
       "Lewis Cawte"
     ]
   },
-  "nosuchwiki-desc": "The NoSuchWiki extension provides a custom page for users trying to access non-existant sites at ShoutWiki."
+  "nosuchwiki-desc": "The NoSuchWiki extension provides a custom page for users trying to access non-existant sites at ShoutWiki.",
+  "nosuchwiki-nevercreated": "This wiki was never created. You can create it now at [[Special:CreateWiki]]!",
+  "nosuchwiki-requestedsite": "Unfortunatly the site at $1 cannot be reached...",
+  "nosuchwiki-logentry": "$1 was deleted by $2 at $3 for the reason \"$4\"."
 }
