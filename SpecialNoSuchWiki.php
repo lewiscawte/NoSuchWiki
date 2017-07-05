@@ -23,7 +23,7 @@ class SpecialNoSuchWiki extends SpecialPage {
 		$out = $this->getOutput();
 		$out->addModuleStyles( 'ext.nosuchwiki' );
 
-		$reqSite = $this->getSite();
+		$reqSite = $this->getSite( $par );
 		$logContents = $this->getLogs( $reqSite );
 		$this->formatAndOutputLogs( $reqSite, $logContents );
 		//$this->addOtherWikis();
@@ -34,14 +34,12 @@ class SpecialNoSuchWiki extends SpecialPage {
 	 *
 	 * @return string
 	 */
-	private function getSite() {
-		var_dump( $_SERVER['HTTP_REFERER'] );
-		if( isset( $_SERVER['HTTP_REFERER'] ) ) {
-			$in = $_SERVER['HTTP_REFERER'];
+	private function getSite( $par ) {
+		var_dump( $par );
+		if( isset( $par ) ) {
+			$in = $par;
 			$escaped = htmlspecialchars( $in );
-			$domain = explode( '/', $escaped );
-			$wiki = explode( '.', $domain[2] );
-			$reqWiki = $this->determineWiki( $wiki );
+			$reqWiki = $this->determineWiki( $escaped );
 		} else {
 			$reqWiki = null;
 		}
@@ -55,8 +53,6 @@ class SpecialNoSuchWiki extends SpecialPage {
 	 */
 	private function determineWiki( $wiki ) {
 		global $wgLangToCentralMap;
-
-		$x = count( $wiki );
 
 		if( $wiki[0] == "www" && $wiki[1] == "shoutwiki" && $wiki[3] == "com" ) {
 			// English language hub.
